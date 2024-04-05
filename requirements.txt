@@ -1,15 +1,21 @@
 # For Flask apps
 Flask
-Flask-WTF
-WTForms-SQLAlchemy
-# For Dash apps
-dash
-dash-bootstrap-components
-# For the REST API
 Flask-SQLAlchemy
 Flask-Marshmallow
 Marshmallow-SQLAlchemy
 jwt
+flask-wtf
+wtforms-sqlalchemy
+# For Dash apps
+dash
+dash-bootstrap-components
 pandas
-# For the Iris ML model app
-# scikit-learn
+requests
+# For testing
+pytest
+selenium
+# pytest-flask
+pytest-cov
+# Dash testing may need to be esacaped: dash\[testing]
+# see https://dash.plotly.com/testing
+dash[testing]
