@@ -2,6 +2,17 @@ import os
 from selenium.webdriver.chrome.options import Options
 from dash.testing.application_runners import import_app
 import requests
+import sys
+from selenium import webdriver
+
+# get the current directory
+current_directory = os.path.dirname(os.path.realpath(__file__))
+
+# create the path to the chromedriver
+path_to_chromedriver = os.path.join(current_directory, 'chromedriver')
+
+# create a new Chrome browser instance
+driver = webdriver.Chrome(executable_path=path_to_chromedriver)
 
 
 def test_server_live(dash_duo):
@@ -22,3 +33,25 @@ def test_server_live(dash_duo):
 
     # Finally, use the pytest assertion to check that the status code in the HTTP response is 200
     assert response.status_code == 200
+
+"""
+def test_home_h1textequals(dash_duo):
+
+ 
+    GIVEN the app is running
+    WHEN the home page is available
+    THEN the H1 heading text should be "Paralympics Dashboard"
+
+    app = import_app(app_file="src.PastaSales_dash")
+    dash_duo.start_server(app)
+
+    # Wait for the H1 heading to be visible, timeout if this does not happen within 4 seconds
+    dash_duo.wait_for_element("h1", timeout=4)
+
+    # Find the text content of the H1 heading element
+    h1_text = dash_duo.find_element("h1").text
+
+    # Check the heading has the text we expect
+    assert h1_text == "Pasta Sales Dashboard"
+
+"""
