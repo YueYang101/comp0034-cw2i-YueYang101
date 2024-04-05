@@ -19,17 +19,20 @@ source .venv/bin/activate
 # Install the requirements
 pip install -r requirements.txt
 
+# Install the Web App
+pip pip install -e .
+
+# Before running the pytest
+# Install selenium and pytest
+pip install selenium pytest
+# Put the right version of the chrome driver
+
 # Run the app with command
-flask --app paralympics run --debug
+python src/PastaSales_dash.py
 
 # Stop the app by pressing CTRL+C
 
-# Check if the instance folder created which contains paralympics.sqlite
+# read the pdf file 'comp0034-coursework2'
 
-# Using following input to access data
-# /total_sales_each_brand/<specific_date>
-# /promo_record_each_brand/<specific_date>
-# Date format example: 2024-01-02
-
-
-# read the pdf file 'comp0034-coursework1'
+# Github Link
+https://github.com/YueYang101/comp0034-cw2i-YueYang101
