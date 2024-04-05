@@ -33,6 +33,9 @@ python src/PastaSales_dash.py
 
 # Stop the app by pressing CTRL+C
 
+# Run tests
+pytest
+
 # read the pdf file 'comp0034-coursework2'
 
 # Github Link
