@@ -7,8 +7,7 @@ import pandas as pd
 import plotly.express as px
 from dash import html
 
-event_data = Path(__file__).parent.parent.joinpath("PastaSalesData", "sum_stats.csv")
-event_data = Path(__file__).parent.parent.joinpath("data", "paralympic_events.csv")
+event_data = Path(__file__).parent.parent.joinpath("Data", "sum_stats.csv")
 paralympic_db = Path(__file__).parent.joinpath("paralympics_dash.sqlite")
 
 
@@ -59,7 +58,6 @@ def line_chart(feature):
                   template="simple_white"
                   )
     return fig
-
 
 
 def bar_gender(event_type):
