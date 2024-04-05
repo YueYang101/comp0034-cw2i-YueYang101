@@ -1,38 +1,14 @@
 import dash_bootstrap_components as dbc
 from dash import html, dcc
 
-from figures import line_chart_1, line_chart_2, bar_gender, scatter_geo
+from figures import line_chart_1, line_chart_2, bar_gender
 
-# Figures
-map = scatter_geo()
+# Figures Initial setup
 line_1 = line_chart_1("sum_stats")
 line_2 = line_chart_2("QTY_B1_1")
 bar = bar_gender()
 
 # Layout variables
-'''
-dropdown_1 = dbc.Select(
-    id="type-dropdown_1",
-    options=[
-        {"label": "Sales stats of all brands", "value": "sum_stats"},
-        {"label": "Sales stats of brand 1", "value": "brand_1"},
-        {"label": "Sales stats of brand 2", "value": "brand_2"},
-        {"label": "Sales stats of brand 3", "value": "brand_3"},
-        {"label": "Sales stats of brand 4", "value": "brand_4"},
-    ],
-    value="sum_stats"
-)
-
-chart_type_colors = {
-    "sum_stats": "blue",
-    "brand_1": "green",
-    "brand_2": "red",
-    "brand_3": "purple",
-    "brand_4": "orange",
-}
-
-'''
-
 dropdown_1 = dbc.Select(
     id="type-dropdown_1",
     options=[
@@ -44,6 +20,7 @@ dropdown_1 = dbc.Select(
     value="brand_1"
 )
 
+
 dropdown_2 = dbc.Select(
     id="type-dropdown_2",
         options=[
@@ -52,6 +29,7 @@ dropdown_2 = dbc.Select(
     ],
     value="QTY_B1_1"
 )
+
 
 checklist = dbc.Checklist(
     options=[
@@ -67,7 +45,7 @@ checklist = dbc.Checklist(
 )
 
 
-# Rows
+# Rows Layout
 row_1 = html.Div(
     dbc.Row([
         dbc.Col([
@@ -146,7 +124,7 @@ row_9 = dbc.Row([
     ], width=2),
     dbc.Col(children=[
         dropdown_2,
-    ], width={"size": 2, "offset": 4}),
+    ], width={"size": 2, "offset": 1}),  # Changed offset from 4 to 1
 ], align="start")
 
 
