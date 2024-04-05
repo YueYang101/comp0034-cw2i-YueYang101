@@ -2,7 +2,6 @@
 name = "PastaSales_app"
 version = "1.0"
 description = "An app to show the pasta sales of 3 different brands in a grocery"
-python = "^3.8"
 
 [build-system]
 requires = ["setuptools", "setuptools-scm"]
