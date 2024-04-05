@@ -1,8 +1,10 @@
 from dash import Dash, Output, Input
 import dash_bootstrap_components as dbc
 
-from figures import line_chart, bar_gender_faceted, create_card
-from layout_elements import row_one, row_two, row_three, row_four
+from figures import line_chart_1, bar_gender_faceted, create_card
+from layout_elements import row_one, row_two, row_three, row_four, row_five
+
+import plotly.graph_objects as go
 
 external_stylesheets = [dbc.themes.BOOTSTRAP]
 meta_tags = [
@@ -17,18 +19,34 @@ app.layout = dbc.Container([
     row_two,
     row_three,
     row_four,
+    row_five
 ])
 
 
 @app.callback(
     Output(component_id='line', component_property='figure'),
-    Input(component_id='type-dropdown', component_property='value')
+    Input(component_id='checklist-input', component_property='value')
 )
-def update_line_chart(chart_type):
-    figure = line_chart(chart_type)
-    return figure
+def update_line_chart(chart_types):
+    if not chart_types:  # if the list is empty, return an empty figure
+        return go.Figure()
 
+    # Create a figure with a line for each chart_type in chart_types
+    fig = go.Figure()
+    for chart_type in chart_types:
+        if chart_type in ["sum_stats", "brand_1", "brand_2", "brand_3", "brand_4"]:
+            chart = line_chart_1(chart_type)
+            for trace in chart.data:
+                # Create a new trace with the data and name from the original trace
+                new_trace = go.Scattergl(x=trace.x, y=trace.y, name=chart_type)
+                fig.add_trace(new_trace)
 
+    # Show the legend
+    fig.update_layout(showlegend=True)
+
+    return fig
+
+'''
 @app.callback(
     Output(component_id='bar', component_property='figure'),
     Input(component_id='checklist-input', component_property='value')
@@ -36,6 +54,7 @@ def update_line_chart(chart_type):
 def update_line_chart(event_type):
     figure = bar_gender_faceted(event_type)
     return figure
+'''
 
 
 @app.callback(

@@ -7,13 +7,13 @@ import pandas as pd
 import plotly.express as px
 from dash import html
 
-sum_samles = Path(__file__).parent.parent.joinpath("PastaSalesData", "sum_stats.csv")
+sum_samles_data = Path(__file__).parent.parent.joinpath("PastaSalesData", "sum_stats.csv")
 
 event_data = Path(__file__).parent.parent.joinpath("data", "paralympic_events.csv")
 paralympic_db = Path(__file__).parent.joinpath("paralympics_dash.sqlite")
 
 
-def line_chart(feature):
+def line_chart_1(feature):
     """ Creates a line chart with data from paralympics_events.csv
 
     Data is displayed over time from 1960 onwards.
@@ -36,65 +36,44 @@ def line_chart(feature):
 
     # Read the data from pandas into a dataframe
     cols = ["date", "sum_stats", "brand_1", "brand_2", "brand_3", "brand_4"]
-    line_chart_data = pd.read_csv(sum_samles, usecols=cols)
+    line_chart_data = pd.read_csv(sum_samles_data, usecols=cols)
 
-    # Set the title for the chart using the value of 'feature'
-    title_text = f"How has the number of {feature} changed over time?"
-
-    '''
-    Create a Plotly Express line chart with the following parameters
-      line_chart_data is the DataFrane
-      x="year" is the column to use as a x-axis
-      y=feature is the column to use as the y-axis
-      color="type" indicates if winter or summer
-      title=title_text sets the title using the variable title_text
-      labels={} sets the X label to Year, sets the Y axis and the legend to nothing (an empty string)
-      template="simple_white" uses a Plotly theme to style the chart
-    '''
     fig = px.line(line_chart_data,
-                  x="year",
+                  x="date",
                   y=feature,
-                  color="type",
-                  title=title_text,
-                  labels={'year': 'Year', feature: '', 'type': ''},
+                  title='The sales data of all brands changed over time',
+                  labels={'date': 'Date', feature: '', 'type': ''},
                   template="simple_white"
                   )
     return fig
+    
+# Create the chart
+fig = line_chart_1("sum_stats")
+
+# Show the chart
+fig.show()
 
 
 
-def bar_gender(event_type):
-    """
-    Creates a stacked bar chart showing change in the number of sports in the summer and winter paralympics
-    over time
-    An example for exercise 2.
-
-    :param event_type: str Winter or Summer
-    :return: Plotly Express bar chart
-    """
-    cols = ['type', 'year', 'host', 'participants_m', 'participants_f', 'participants']
-    df_events = pd.read_csv(event_data, usecols=cols)
-    # Drop Rome as there is no male/female data
-    df_events.drop([0], inplace=True, )
-    df_events.reset_index(drop=True)
+def bar_gender():
+    
+    cols = ["date", "sum_stats", "brand_1", "brand_2", "brand_3", "brand_4"]
+    bar_chart_data = pd.read_csv(sum_samles_data, usecols=cols)
     # Add new columns that each contain the result of calculating the % of male and female participants
-    df_events['M%'] = df_events['participants_m'] / df_events['participants']
-    df_events['F%'] = df_events['participants_f'] / df_events['participants']
-    # Sort the values by Type and Year
-    df_events.sort_values(['type', 'year'], ascending=(True, True), inplace=True)
-    # Create a new column that combines Location and Year to use as the x-axis
-    df_events['xlabel'] = df_events['host'] + ' ' + df_events['year'].astype(str)
-    # Create the stacked bar plot of the % for male and female
-    df_events = df_events.loc[df_events['type'] == event_type]
-    fig = px.bar(df_events,
-                 x='xlabel',
-                 y=['M%', 'F%'],
+    bar_chart_data['Brand_1%'] = bar_chart_data['brand_1'] / bar_chart_data['sum_stats']
+    bar_chart_data['Brand_2%'] = bar_chart_data['brand_2'] / bar_chart_data['sum_stats']
+    bar_chart_data['Brand_3%'] = bar_chart_data['brand_3'] / bar_chart_data['sum_stats']
+    bar_chart_data['Brand_4%'] = bar_chart_data['brand_4'] / bar_chart_data['sum_stats']
+    
+    fig = px.bar(bar_chart_data,
+                 x='date',
+                 y=['Brand_1%', 'Brand_2%', 'Brand_3%', 'Brand_4%'],
                  title='How has the ratio of female:male participants changed?',
                  labels={'xlabel': '', 'value': '', 'variable': ''},
-                 color_discrete_map={'M%': 'blue', 'F%': 'green'},
+                 color_discrete_map={'Brand_1%': '#000080', 'Brand_2%': '#006400','Brand_3%': '#800000','Brand_4%': '#4B0082'},
                  template="simple_white"
                  )
-    fig.update_xaxes(ticklen=0)
+    fig.update_xaxes(ticklen=0, rangeslider_visible=True, range=['2018-01-01', '2018-01-31'])
     return fig
 
 
