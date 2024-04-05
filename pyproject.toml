@@ -3,12 +3,15 @@ name = "PastaSales_app"
 version = "1.0"
 description = "An app to show the pasta sales of 3 different brands in a grocery"
 
-# https://setuptools.pypa.io/en/latest/userguide/pyproject_config.html
 [build-system]
 requires = ["setuptools", "setuptools-scm"]
 build-backend = "setuptools.build_meta"
 
 [tool.setuptools.packages.find]
-where = ["src"]  # list of folders that contain the packages (["."] by default)
-# include = ["paralympics_dash", "paralympics_flask"]
-namespaces = false  # to disable scanning PEP 420 namespaces (true by default)
+where = ["src"]
+namespaces = false
+
+[tool.pytest.ini_options]
+filterwarnings = [
+    "ignore::DeprecationWarning"
+]

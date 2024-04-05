@@ -5,19 +5,24 @@ import requests
 import sys
 from selenium import webdriver
 
+
+from selenium.webdriver.chrome.service import Service
+import os
+os.environ["PATH"] += os.pathsep + os.path.dirname(os.path.realpath(__file__))
 # get the current directory
 current_directory = os.path.dirname(os.path.realpath(__file__))
 
 # create the path to the chromedriver
-path_to_chromedriver = os.path.join(current_directory, 'chromedriver')
+path_to_chromedriver = os.path.join(current_directory,'chromedriver.exe')  # add .exe for Windows
 
 # create a new Chrome browser instance
-driver = webdriver.Chrome(executable_path=path_to_chromedriver)
+s=Service(path_to_chromedriver)
+driver = webdriver.Chrome(service=s)
 
 
 def test_server_live(dash_duo):
     # Create the app
-    app = import_app(app_file="src.PastaSales_dash")
+    app = import_app(app_file="PastaSales_dash")
     # Start the server with the app using the dash_duo fixture
     dash_duo.start_server(app)
 
@@ -34,6 +39,7 @@ def test_server_live(dash_duo):
     # Finally, use the pytest assertion to check that the status code in the HTTP response is 200
     assert response.status_code == 200
 
+    
 """
 def test_home_h1textequals(dash_duo):
 
