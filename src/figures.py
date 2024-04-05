@@ -1,19 +1,17 @@
 import sqlite3
 from pathlib import Path
-
 import dash
 import dash_bootstrap_components as dbc
 import pandas as pd
 import plotly.express as px
 from dash import html
 
+# Path to the csv files
 sales_data = Path(__file__).parent.parent.joinpath("PastaSalesData", "hierarchical_sales_data.csv")
 sum_samles_data = Path(__file__).parent.parent.joinpath("PastaSalesData", "sum_stats.csv")
 
-event_data = Path(__file__).parent.parent.joinpath("data", "paralympic_events.csv")
-paralympic_db = Path(__file__).parent.joinpath("paralympics_dash.sqlite")
 
-
+# Function to create a line chart
 def line_chart_1(feature):
     """ Creates a line chart with data from paralympics_events.csv
 
@@ -47,7 +45,9 @@ def line_chart_1(feature):
                   template="simple_white"
                   )
     return fig
-    
+
+
+# Function to create a line chart
 def line_chart_2(product):
     base_cols = ["DATE"]
     brand_1_cols = [f"QTY_B1_{i}" for i in range(1, 43)]
@@ -66,6 +66,8 @@ def line_chart_2(product):
     fig.update_layout(showlegend=True)  # Add this line to show the legend
     return fig
 
+
+# Function to create a bar chart
 def bar_gender():
     
     cols = ["date", "sum_stats", "brand_1", "brand_2", "brand_3", "brand_4"]

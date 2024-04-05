@@ -1,10 +1,10 @@
 from dash import Dash, Output, Input
 import dash_bootstrap_components as dbc
-
 from figures import line_chart_1, line_chart_2
 from layout_elements import row_1, row_2, row_3, row_4, row_5, row_6, row_7, row_8, row_9, row_10
 import plotly.graph_objects as go
 
+# Create the Dash app
 external_stylesheets = [dbc.themes.BOOTSTRAP]
 meta_tags = [
     {"name": "viewport", "content": "width=device-width, initial-scale=1"},
@@ -12,7 +12,6 @@ meta_tags = [
 app = Dash(__name__, external_stylesheets=external_stylesheets, meta_tags=meta_tags)
 
 # Layout variables are in layout_elements.py
-
 app.layout = dbc.Container([
     row_1,
     row_2,
@@ -27,6 +26,7 @@ app.layout = dbc.Container([
 ])
 
 
+# Callbacks
 @app.callback(
     Output(component_id='line_1', component_property='figure'),
     Input(component_id='checklist-input', component_property='value')

@@ -2,6 +2,7 @@
 name = "PastaSales_app"
 version = "1.0"
 description = "An app to show the pasta sales of 3 different brands in a grocery"
+python = "^3.8"
 
 [build-system]
 requires = ["setuptools", "setuptools-scm"]
@@ -15,3 +16,11 @@ namespaces = false
 filterwarnings = [
     "ignore::DeprecationWarning"
 ]
+
+[tool.poetry.dependencies]
+python = "^3.8"
+dash = "^1.21.0"
+pandas = "^1.3.3"
+
+[tool.poetry.dev-dependencies]
+pytest = "^6.2.5"

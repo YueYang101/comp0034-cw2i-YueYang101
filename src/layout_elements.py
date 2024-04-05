@@ -1,6 +1,5 @@
 import dash_bootstrap_components as dbc
 from dash import html, dcc
-
 from figures import line_chart_1, line_chart_2, bar_gender
 
 # Figures Initial setup
@@ -23,6 +22,7 @@ dropdown_1 = dbc.Select(
 
 dropdown_2 = dbc.Select(
     id="type-dropdown_2",
+    # THe options will be updated by the callback update_dropdown_2
         options=[
             {"label": "Product #1", "value": "QTY_B1_1"},
             {"label": "Product #2", "value": "QTY_B1_2"},

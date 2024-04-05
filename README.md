@@ -25,7 +25,8 @@ pip pip install -e .
 # Before running the pytest
 # Install selenium and pytest
 pip install selenium pytest
-# Put the right version of the chrome driver
+
+# Put the right version of the chrome driver in the tests forlder
 
 # Run the app with command
 python src/PastaSales_dash.py

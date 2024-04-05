@@ -4,10 +4,10 @@ from dash.testing.application_runners import import_app
 import requests
 import sys
 from selenium import webdriver
-
-
 from selenium.webdriver.chrome.service import Service
 import os
+
+# Add the current directory to the system path
 os.environ["PATH"] += os.pathsep + os.path.dirname(os.path.realpath(__file__))
 # get the current directory
 current_directory = os.path.dirname(os.path.realpath(__file__))
@@ -20,7 +20,6 @@ path_to_chromedriver = os.path.join(current_directory,'chromedriver.exe')  # add
 # create a new Chrome browser instance
 s=Service(path_to_chromedriver)
 driver = webdriver.Chrome(service=s)
-
 
 
 def test_1_server_live(dash_duo):
@@ -42,7 +41,6 @@ def test_1_server_live(dash_duo):
     assert response.status_code == 200
 
     
-
 def test_2_home_h1textequals(dash_duo):
 
     """
@@ -61,7 +59,6 @@ def test_2_home_h1textequals(dash_duo):
 
     # Check the heading has the text we expect
     assert h1_text == "Pasta Sales Dashboard"
-
 
 
 def test_3_bar_chart_exists(dash_duo):
@@ -112,7 +109,6 @@ def test_6_button_click_changes_page(dash_duo):
 
     # Check if the new element exists
     assert dash_duo.find_element("#line_1") is not None
-
 
 
 def test_7_dropdown_has_correct_options(dash_duo):
