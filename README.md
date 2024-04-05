@@ -20,7 +20,7 @@ source .venv/bin/activate
 pip install -r requirements.txt
 
 # Install the Web App
-pip pip install -e .
+pip install -e .
 
 # Before running the pytest
 # Install selenium and pytest
