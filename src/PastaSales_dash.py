@@ -1,8 +1,8 @@
 from dash import Dash, Output, Input
 import dash_bootstrap_components as dbc
 
-from figures import line_chart_1, bar_gender_faceted, create_card
-from layout_elements import row_1, row_2, row_3, row_4, row_5, row_6, row_7, row_8
+from figures import line_chart_1, line_chart_2
+from layout_elements import row_1, row_2, row_3, row_4, row_5, row_6, row_7, row_8, row_9, row_10
 import plotly.graph_objects as go
 
 external_stylesheets = [dbc.themes.BOOTSTRAP]
@@ -22,14 +22,16 @@ app.layout = dbc.Container([
     row_6,
     row_7,
     row_8,
+    row_9,
+    row_10,
 ])
 
 
 @app.callback(
-    Output(component_id='line', component_property='figure'),
+    Output(component_id='line_1', component_property='figure'),
     Input(component_id='checklist-input', component_property='value')
 )
-def update_line_chart(chart_types):
+def update_line_chart_1(chart_types):
     if not chart_types:  # if the list is empty, return an empty figure
         return go.Figure()
 
@@ -44,31 +46,34 @@ def update_line_chart(chart_types):
                 fig.add_trace(new_trace)
 
     # Show the legend
-    fig.update_layout(title_text='The sales data of all pasta brands changed over time')
+    fig.update_layout(title_text='The sales data of all pasta brands over time')
     fig.update_layout(showlegend=True)
 
     return fig
 
-'''
+
 @app.callback(
-    Output(component_id='bar', component_property='figure'),
-    Input(component_id='checklist-input', component_property='value')
+    Output(component_id='line_2', component_property='figure'),
+    Input(component_id='type-dropdown_2', component_property='value')
 )
-def update_line_chart(event_type):
-    figure = bar_gender_faceted(event_type)
+def update_line_chart_2(chart_type):
+    figure = line_chart_2(chart_type)
     return figure
-'''
 
 
 @app.callback(
-    Output('card', 'children'),
-    Input('map', 'hoverData'),
+    Output('type-dropdown_2', 'options'),
+    Input('type-dropdown_1', 'value')
 )
-def display_card(hover_data):
-    if hover_data is not None:
-        event_id = hover_data['points'][0]['customdata'][0]
-        if event_id is not None:
-            return create_card(event_id)
+def update_dropdown_2(selected_value):
+    if selected_value == 'brand_1':
+        return [{"label": f"Product #{i}", "value": f"QTY_B1_{i}"} for i in range(1, 43)]
+    if selected_value == 'brand_2':
+        return [{"label": f"Product #{i}", "value": f"QTY_B2_{i}"} for i in range(1, 46)]
+    if selected_value == 'brand_3':
+        return [{"label": f"Product #{i}", "value": f"QTY_B3_{i}"} for i in range(1, 22)]
+    if selected_value == 'brand_4':
+        return [{"label": f"Product #{i}", "value": f"QTY_B4_{i}"} for i in range(1, 11)]
 
 
 if __name__ == '__main__':

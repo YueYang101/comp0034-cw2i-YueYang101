@@ -7,6 +7,7 @@ import pandas as pd
 import plotly.express as px
 from dash import html
 
+sales_data = Path(__file__).parent.parent.joinpath("PastaSalesData", "hierarchical_sales_data.csv")
 sum_samles_data = Path(__file__).parent.parent.joinpath("PastaSalesData", "sum_stats.csv")
 
 event_data = Path(__file__).parent.parent.joinpath("data", "paralympic_events.csv")
@@ -47,6 +48,22 @@ def line_chart_1(feature):
                   )
     return fig
     
+def line_chart_2(product):
+    base_cols = ["DATE"]
+    brand_1_cols = [f"QTY_B1_{i}" for i in range(1, 43)]
+    brand_2_cols = [f"QTY_B2_{i}" for i in range(1, 46)]
+    brand_3_cols = [f"QTY_B3_{i}" for i in range(1, 22)]
+    brand_4_cols = [f"QTY_B4_{i}" for i in range(1, 11)]
+    cols = base_cols + brand_1_cols + brand_2_cols + brand_3_cols + brand_4_cols
+    line_chart_2_data = pd.read_csv(sales_data, usecols=cols)
+    fig = px.line(line_chart_2_data,
+                  x="DATE",
+                  y=product,
+                  title='The sales data of all pasta brands changed over time',
+                  labels={'date': 'Date', product: '', 'type': ''},
+                  template="simple_white"
+                  )
+    return fig
 
 def bar_gender():
     
@@ -68,149 +85,3 @@ def bar_gender():
                  )
     fig.update_xaxes(ticklen=0, rangeslider_visible=True, range=['2018-01-01', '2018-01-31'])
     return fig
-
-
-def bar_gender_faceted(event_type):
-    """
-    Creates a faceted subplot with stacked bar charts showing change in the number of m/f participants in the summer
-    and winter paralympics over time.
-
-    :param event_type: List with Winter and/or Summer
-    :return: Plotly Express bar chart
-    """
-    cols = ['type', 'year', 'host', 'participants_m', 'participants_f', 'participants']
-    df_events = pd.read_csv(event_data, usecols=cols)
-
-    # Keep only rows where there is m/f data
-    df_events = df_events[(df_events['participants_f'] >= 1)].reset_index(drop=True)
-
-    # Add new columns that each contain the result of calculating the % of male and female participants
-    df_events['M%'] = df_events['participants_m'] / df_events['participants']
-    df_events['F%'] = df_events['participants_f'] / df_events['participants']
-
-    # Create a new column that combines Location and Year to use as the x-axis
-    df_events['xlabel'] = df_events['host'] + ' ' + df_events['year'].astype(str)
-
-    # Get the data based on the selected parameters Winter/Summer/Both/None
-    df_events = df_events.loc[df_events['type'].isin(event_type)]
-
-    # Create the faceted stacked bar plot of the % for male and female
-    fig = px.bar(df_events,
-                 x='xlabel',
-                 y=['M%', 'F%'],
-                 facet_col='type',
-                 title='How has the ratio of female:male participants changed?',
-                 labels={'xlabel': '', 'value': '', 'variable': '', 'type': 'Event type '},
-                 color_discrete_map={'M%': 'blue', 'F%': 'green'},
-                 template="simple_white"
-                 )
-    fig = fig.update_xaxes(matches=None)
-    return fig
-
-
-def scatter_mapbox():
-    """
-    Create a Scatter mapbox showing the locations of the paralympic events.
-
-    This version requires you to create a mapbox token
-    see https://plotly.com/python/scattermapbox/
-
-    """
-    # create database connection
-    connection = sqlite3.connect(paralympic_db)
-
-    # define the sql query
-    sql = '''
-    SELECT event.id, event.host, event.year, location.lat, location.lon
-    FROM event
-    JOIN location ON event.host = location.city 
-    '''
-
-    df_locs = pd.read_sql(sql=sql, con=connection, index_col=None)
-    df_locs['lon'] = df_locs['lon'].astype(float)
-    df_locs['lat'] = df_locs['lat'].astype(float)
-
-    px.set_mapbox_access_token(open(".mapbox_token").read())
-
-    fig = px.scatter_mapbox(df_locs,
-                            lat='lat',
-                            lon='lon',
-                            zoom=1,
-                            hover_data=['host', 'year'],
-                            mapbox_style='carto-positron',
-                            center=dict(lat=df_locs['lat'][0],
-                                        lon=df_locs['lon'][0])
-                            )
-
-    return fig
-
-
-def scatter_geo():
-    # create database connection
-    connection = sqlite3.connect(paralympic_db)
-
-    # define the sql query
-    sql = '''
-        SELECT event.id, event.host, event.year, location.lat, location.lon
-        FROM event
-        JOIN location ON event.host = location.city 
-        '''
-
-    df_locs = pd.read_sql(sql=sql, con=connection, index_col=None)
-    df_locs['lon'] = df_locs['lon'].astype(float)
-    df_locs['lat'] = df_locs['lat'].astype(float)
-    df_locs['name'] = df_locs['host'] + ' ' + df_locs['year'].astype(str)
-
-    # Plotly Express version
-    fig_px = px.scatter_geo(df_locs,
-                            lat=df_locs.lat,
-                            lon=df_locs.lon,
-                            hover_name=df_locs.name,
-                            title="Where have the paralympics been held?",
-                            custom_data='id'
-                            )
-
-    return fig_px
-
-
-def create_card(event_id):
-    """
-    Generate a card for the event specified by event_id.
-
-    Args:
-        event_id:
-
-    Returns:
-        card: dash boostrap components card for the event
-    """
-
-    # Get the row for the event data
-    df_events = pd.read_csv(event_data)
-    ev = df_events.loc[event_id - 1]
-
-    # Variables for the card contents
-    logo = f'logos/{ev['year']}_{ev['host']}.jpg'
-    dates = f'{ev['start']} to {ev['end']}'
-    host = f'{ev['host']} {ev['year']}'
-    highlights = f'Highlights: {ev['highlights']}'
-    participants = f'{ev['participants']} athletes'
-    events = f'{ev['events']} events'
-    countries = f'{ev['countries']} countries'
-
-    c = dbc.Card([
-        dbc.CardBody(
-            [
-                html.H4(html.Img(src=dash.get_asset_url(logo), width=35, className="me-1")),
-                html.Br(),
-                html.H6(host, className="card-subtitle"),
-                html.H6(dates, className="card-subtitle"),
-                html.P(highlights, className="card-text"),
-                html.P(participants, className="card-text"),
-                html.P(events, className="card-text"),
-                html.P(countries, className="card-text"),
-            ]
-        ),
-    ],
-        style={"width": "18rem"},
-    )
-    return c
