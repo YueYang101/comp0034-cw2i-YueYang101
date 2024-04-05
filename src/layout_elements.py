@@ -42,32 +42,59 @@ checklist = dbc.Checklist(
     inline=True,
 )
 
-row_one = html.Div(
+row_1 = html.Div(
     dbc.Row([
-        dbc.Col([html.H1("Pasta Sales Dashboard", id='heading-one'), html.P(
-            "Sales data for four brands of pasta from 2010 to 2020")
-                 ], width=12, align="center"),
+        dbc.Col([
+            html.H1("Pasta Sales Dashboard", id='heading-one'), 
+            html.P("Make smarter strategy with Pasta Sales Dashboard !!!", style={'font-size': '20px', 'word-wrap': 'break-word'}),  # adjust the font size and enable word wrapping
+            html.P("Sales data is from a grocery store records the sales of different pasta brands everyday.", style={'font-size': '15px', 'word-wrap': 'break-word'}),  # adjust the font size and enable word wrapping
+        ], width=8, align="center"),
+        dbc.Col([
+            html.Img(src='/assets/PastaPic2.jpg', 
+                     style={'width': '100%', 'height': '100%', 'object-fit': 'cover', 'margin-left': '-200px','margin-top': '+30px'})  # adjust the image size and position
+        ], width=4),
     ]),
 )
 
-row_two = dbc.Row([
+row_2 = dbc.Row([
+    dbc.Col([
+        html.P("With the following checkboxex, you can select the brands you want to see on the line chart.",
+               )
+    ], width=12, className="text-center"),  # center the text horizontally
+])
+
+row_3 = dbc.Row([
     dbc.Col(children=[
         checklist,
     ], width={"size": 6}),
 ], align="start")
 
-row_three = dbc.Row([
+row_4 = dbc.Row([
     dbc.Col(children=[
         dcc.Graph(id="line", figure=line),
     ], width=12)])
 
-row_four = dbc.Row([
+row_5 = dbc.Row([
+    dbc.Col([
+        html.P("The bar chart shows the percentage of sales of each brand over time. You can select the time period you want to see by using the scroll bar.",
+               )
+    ], width=12, className="text-center"),  # center the text horizontally
+])
+
+row_6 = dbc.Row([
     dbc.Col(children=[
         dcc.Graph(id="bar", figure=bar),
     ], width=12),
 ], align="start")
 
-row_five = dbc.Row([
+row_7 = dbc.Row([
+    dbc.Col([
+        html.P("(The scroll bar is enabled and it takes some time to react to the changes in the data. Please be patient.)", 
+               style={'margin-top': '-5px'})  # adjust the position of the text
+    ], width=12, className="text-center"),  # center the text horizontally
+])
+
+row_8 = dbc.Row([
     dbc.Col(children=[
         dcc.Graph(id="map", figure=map)
     ], width=8, align="start"),

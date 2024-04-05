@@ -61,7 +61,7 @@ def bar_gender():
     fig = px.bar(bar_chart_data,
                  x='date',
                  y=['Brand_1%', 'Brand_2%', 'Brand_3%', 'Brand_4%'],
-                 title='How has the ratio of female:male participants changed?',
+                 title='The ratio of sales of each pasta brand over time',
                  labels={'xlabel': '', 'value': '', 'variable': ''},
                  color_discrete_map={'Brand_1%': '#000080', 'Brand_2%': '#006400','Brand_3%': '#800000','Brand_4%': '#4B0082'},
                  template="simple_white"

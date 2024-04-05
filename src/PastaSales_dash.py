@@ -2,8 +2,7 @@ from dash import Dash, Output, Input
 import dash_bootstrap_components as dbc
 
 from figures import line_chart_1, bar_gender_faceted, create_card
-from layout_elements import row_one, row_two, row_three, row_four, row_five
-
+from layout_elements import row_1, row_2, row_3, row_4, row_5, row_6, row_7, row_8
 import plotly.graph_objects as go
 
 external_stylesheets = [dbc.themes.BOOTSTRAP]
@@ -15,11 +14,14 @@ app = Dash(__name__, external_stylesheets=external_stylesheets, meta_tags=meta_t
 # Layout variables are in layout_elements.py
 
 app.layout = dbc.Container([
-    row_one,
-    row_two,
-    row_three,
-    row_four,
-    row_five
+    row_1,
+    row_2,
+    row_3,
+    row_4,
+    row_5,
+    row_6,
+    row_7,
+    row_8,
 ])
 
 
