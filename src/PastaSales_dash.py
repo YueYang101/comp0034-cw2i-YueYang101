@@ -58,6 +58,7 @@ def update_line_chart_1(chart_types):
 )
 def update_line_chart_2(chart_type):
     figure = line_chart_2(chart_type)
+    figure.update_layout(showlegend=True)
     return figure
 
 

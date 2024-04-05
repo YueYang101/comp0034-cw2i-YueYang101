@@ -121,10 +121,10 @@ row_8 = dbc.Row([
 row_9 = dbc.Row([
     dbc.Col(children=[
         dropdown_1
-    ], width=2),
+    ], width={"size": 2, "offset": 4}),  # Changed offset from 2 to 4
     dbc.Col(children=[
         dropdown_2,
-    ], width={"size": 2, "offset": 1}),  # Changed offset from 4 to 1
+    ], width={"size": 2, "offset": 0}),  # Changed offset from 1 to 0
 ], align="start")
 
 

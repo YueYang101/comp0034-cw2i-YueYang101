@@ -63,6 +63,7 @@ def line_chart_2(product):
                   labels={'date': 'Date', product: '', 'type': ''},
                   template="simple_white"
                   )
+    fig.update_layout(showlegend=True)  # Add this line to show the legend
     return fig
 
 def bar_gender():
