@@ -42,6 +42,7 @@ def update_line_chart(chart_types):
                 fig.add_trace(new_trace)
 
     # Show the legend
+    fig.update_layout(title_text='The sales data of all pasta brands changed over time')
     fig.update_layout(showlegend=True)
 
     return fig

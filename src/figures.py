@@ -41,19 +41,12 @@ def line_chart_1(feature):
     fig = px.line(line_chart_data,
                   x="date",
                   y=feature,
-                  title='The sales data of all brands changed over time',
+                  title='The sales data of all pasta brands changed over time',
                   labels={'date': 'Date', feature: '', 'type': ''},
                   template="simple_white"
                   )
     return fig
     
-# Create the chart
-fig = line_chart_1("sum_stats")
-
-# Show the chart
-fig.show()
-
-
 
 def bar_gender():
     
