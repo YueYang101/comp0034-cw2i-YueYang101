@@ -5,17 +5,18 @@ from figures import line_chart, bar_gender, scatter_geo
 
 # Figures
 map = scatter_geo()
-line = line_chart("sports")
+line = line_chart("sum_stats")
 bar = bar_gender("winter")
 
 # Layout variables
 dropdown = dbc.Select(
     id="type-dropdown",
     options=[
-        {"label": "Events", "value": "events"},
-        {"label": "Sports", "value": "sports"},
-        {"label": "Countries", "value": "countries"},
-        {"label": "Athletes", "value": "participants"},
+        {"label": "Sales stats of all brands", "value": "sum_stats"},
+        {"label": "Sales stats of brand 1", "value": "brand_1"},
+        {"label": "Sales stats of brand 2", "value": "brand_2"},
+        {"label": "Sales stats of brand 3", "value": "brand_3"},
+        {"label": "Sales stats of brand 4", "value": "brand_4"},
     ],
     value="events"
 )

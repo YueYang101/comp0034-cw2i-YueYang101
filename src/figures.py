@@ -7,7 +7,8 @@ import pandas as pd
 import plotly.express as px
 from dash import html
 
-event_data = Path(__file__).parent.parent.joinpath("PastaSalesData", "sum_stats.csv")
+sum_samles = Path(__file__).parent.parent.joinpath("PastaSalesData", "sum_stats.csv")
+
 event_data = Path(__file__).parent.parent.joinpath("data", "paralympic_events.csv")
 paralympic_db = Path(__file__).parent.joinpath("paralympics_dash.sqlite")
 
@@ -26,16 +27,16 @@ def line_chart(feature):
      """
 
     # take the feature parameter from the function and check it is valid
-    if feature not in ["sports", "participants", "events", "countries"]:
+    if feature not in ["sum_stats", "brand_1", "brand_2", "brand_3", "brand_4"]:
         raise ValueError(
-            'Invalid value for "feature". Must be one of ["sports", "participants", "events", "countries"]')
+            'Invalid value for "feature". Must be one of ["sum_stats", "brand_1", "brand_2", "brand_3", "brand_4"]')
     else:
         # Make sure it is lowercase to match the dataframe column names
         feature = feature.lower()
 
     # Read the data from pandas into a dataframe
-    cols = ["type", "year", "host", "events", "sports", "participants", "countries"]
-    line_chart_data = pd.read_csv(event_data, usecols=cols)
+    cols = ["date", "sum_stats", "brand_1", "brand_2", "brand_3", "brand_4"]
+    line_chart_data = pd.read_csv(sum_samles, usecols=cols)
 
     # Set the title for the chart using the value of 'feature'
     title_text = f"How has the number of {feature} changed over time?"
