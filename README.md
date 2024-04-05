@@ -36,7 +36,7 @@ python src/PastaSales_dash.py
 # Run tests
 pytest
 
-# read the pdf file 'comp0034-coursework2'
+# read the pdf file 'comp0034-coursework2' which includes the evidance of the tests results
 
 # Github Link
 https://github.com/YueYang101/comp0034-cw2i-YueYang101
