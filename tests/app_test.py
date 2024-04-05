@@ -20,6 +20,7 @@ s=Service(path_to_chromedriver)
 driver = webdriver.Chrome(service=s)
 
 
+
 def test_server_live(dash_duo):
     # Create the app
     app = import_app(app_file="PastaSales_dash")
@@ -40,15 +41,15 @@ def test_server_live(dash_duo):
     assert response.status_code == 200
 
     
-"""
+
 def test_home_h1textequals(dash_duo):
 
- 
+    """
     GIVEN the app is running
     WHEN the home page is available
     THEN the H1 heading text should be "Paralympics Dashboard"
-
-    app = import_app(app_file="src.PastaSales_dash")
+    """
+    app = import_app(app_file="PastaSales_dash")
     dash_duo.start_server(app)
 
     # Wait for the H1 heading to be visible, timeout if this does not happen within 4 seconds
@@ -60,4 +61,48 @@ def test_home_h1textequals(dash_duo):
     # Check the heading has the text we expect
     assert h1_text == "Pasta Sales Dashboard"
 
-"""
+
+
+def test_element_exists(dash_duo):
+    app = import_app(app_file="PastaSales_dash")
+    dash_duo.start_server(app)
+
+    # Wait for the specific element to be visible, timeout if this does not happen within 20 seconds
+    dash_duo.wait_for_element("#bar", timeout=20)
+
+    # Check if the element exists
+    assert dash_duo.find_element("#bar") is not None
+
+
+
+def test_button_click_changes_page(dash_duo):
+    app = import_app(app_file="PastaSales_dash")
+    dash_duo.start_server(app)
+
+    # Wait for the button to be visible, timeout if this does not happen within 20 seconds
+    dash_duo.wait_for_element("#checklist-input", timeout=20)
+
+    # Click the button
+    dash_duo.find_element("#checklist-input").click()
+
+    # Wait for the new element to be visible, timeout if this does not happen within 20 seconds
+    dash_duo.wait_for_element("#line_1", timeout=20)
+
+    # Check if the new element exists
+    assert dash_duo.find_element("#line_1") is not None
+
+
+
+def test_dropdown_has_correct_options(dash_duo):
+    app = import_app(app_file="PastaSales_dash")
+    dash_duo.start_server(app)
+
+    # Wait for the dropdown to be visible, timeout if this does not happen within 20 seconds
+    dash_duo.wait_for_element("#type-dropdown_1", timeout=20)
+
+    # Get the dropdown options
+    dropdown = dash_duo.find_element("#type-dropdown_1")
+    options = [option.text for option in dropdown.find_elements_by_tag_name("option")]
+
+    # Check if the options are correct
+    assert options == ["Brand 1", "Brand 2", "Brand 3", "Brand 4"]
